@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<body>
+<div id="app">
+    <ul>
+        <li v-for="item in state1">
+            <button @click="clearUnread">{{item.unread}}</button>
+            <span>{{item.state}}</span>
+        </li>
+        <li v-for="item in state2">
+            <button @click="clearUnread">{{item.unread}}</button>
+            <span>{{item.state}}</span>
+        </li>
+        <li v-for="item in state3">
+            <button @click="clearUnread">{{item.unread}}</button>
+            <span>{{item.state}}</span>
+        </li>
+        <li v-for="item in state4">
+            <button @click="clearUnread">{{item.unread}}</button>
+            <span>{{item.state}}</span>
+        </li>
+        <li v-for="item in state5">
+            <button @click="clearUnread">{{item.unread}}</button>
+            <span>{{item.state}}</span>
+        </li>
+        <li v-for="item in stateFunc1">
+            <button @click="clearUnread">{{item.unread}}</button>
+            <span>{{item.state}}</span>
+        </li>
+    </ul>
+</div>
+<script>
+    const app = new Vue({
+        el: "#app",
+        data: {
+            arr: []
+        },
+        computed: {
+            state1() {
+                // console.time()
+                console.log('重新渲染1')
+                const t = this.arr.filter(
+                    (item) =>
+                        item.state * 1 === 1
+                )
+
+                // console.timeEnd()
+                return t
+            },
+            state2() {
+                console.log('重新渲染2')
+                return this.arr.filter(
+                    (item) =>
+                        item.state * 2 === 2
+                )
+            },
+            state3() {
+                console.log('重新渲染3')
+                return this.arr.filter(
+                    (item) =>
+                        item.state * 3 === 3
+                )
+            },
+            state4() {
+                console.log('重新渲染4')
+                return this.arr.filter(
+                    (item) =>
+                        item.state * 4 === 4
+                )
+            },
+            state5() {
+                console.log('重新渲染5')
+                return this.arr.filter(
+                    (item) =>
+                        item.state * 5 === 5
+                )
+            }
+        },
+        created() {
+            let a = []
+            for (let i = 0; i < 1000; i++) {
+                a[i] = {
+                    chatId: i,
+                    state:Math.floor(Math.random() * (6 - 1) * 10),
+                    unread: Math.floor(Math.random() * (10 - 1) * 10),
+                    createAt: new Date() + i,
+                    detail: '随便打一句话',
+                }
+                this.arr = a
+            }
+            setInterval(() => {
+                this.arr.push(
+                    {
+                        chatId: Math.floor(Math.random() * (10 - 1) * 10),
+                        state: Math.ceil(Math.random() * 6),
+                        unread: Math.floor(Math.random() * (10 - 1) * 10),
+                        createAt: new Date() + 'sss',
+                        detail: '随便打一句话',
+                    }
+                )
+                this.stateFunc1()
+            }, 10000)
+        },
+        mounted() {
+            this.stateFunc1()
+        },
+        methods: {
+            stateFunc1() {
+                console.log('重新渲染func1')
+                return this.arr.filter(
+                    (item) =>
+                        item.state * 1 === 1
+                )
+            },
+            clearUnread(item) {
+                this.arr = this.arr.map((item) => {
+                   return Object.assign({}, item, { unread: 0 });
+                });
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
